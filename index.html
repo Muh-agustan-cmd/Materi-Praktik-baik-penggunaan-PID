@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Panduan Interaktif Papan Tulis Interaktif Digital (PID)</title>
+<style>
+:root{--bg:#f3f7fc;--card:#fff;--ink:#0f1b33;--mut:#5a6b86;--pri:#0284c7;--sky:#38bdf8;--ok:#12a36b;--bad:#e5484d;--line:#d9e3f1;--hero:#101a30;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1324;--card:#15203a;--ink:#eef4ff;--mut:#9db0d0;--pri:#38bdf8;--line:#26365a}}
+*{box-sizing:border-box}html,body{height:100%;margin:0}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink);overflow:hidden}
+#bar{position:fixed;top:0;left:0;height:5px;background:linear-gradient(90deg,var(--pri),var(--sky));width:0;transition:width .3s;z-index:9}
+.slide{display:none;height:100%;padding:26px 6vw 90px;overflow-y:auto}
+.slide.on{display:block;animation:in .35s}
+@keyframes in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+h1{font-size:clamp(30px,5.5vw,56px);margin:.2em 0;line-height:1.1}
+h2{font-size:clamp(23px,3.6vw,38px);margin:0 0 .4em}
+h3{margin:.2em 0}
+p,li{font-size:clamp(16px,1.9vw,20px);line-height:1.55}
+.mut{color:var(--mut)}
+.tag{display:inline-block;color:var(--sky);font-weight:700;letter-spacing:.12em;font-size:14px}
+.dark{background:var(--hero);color:#fff;margin:-26px -6vw -90px;padding:26px 6vw 90px;min-height:100%}
+.dark .mut{color:#9db0d0}
+.cover{max-width:880px;padding-top:12vh}
+.line{width:90px;height:5px;background:var(--sky);border-radius:9px;margin:22px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;border-top:5px solid var(--pri)}
+.mod{cursor:pointer;transition:.2s}.mod:hover{transform:translateY(-4px);box-shadow:0 8px 22px rgba(2,132,199,.2)}
+.mod small{color:var(--pri);font-weight:800}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.tabs button,.btn{font:inherit;font-weight:600;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:9px 14px;cursor:pointer}
+.tabs button.on,.btn.on{background:var(--pri);border-color:var(--pri);color:#fff}
+.panel{background:var(--card);border:1px solid var(--line);border-left:8px solid var(--sky);border-radius:18px;padding:20px}
+.panel .big{font-size:48px}
+.tip{background:rgba(56,189,248,.16);border-radius:12px;padding:9px 13px;margin-top:10px}
+.chk label{display:block;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 16px;margin:9px 0;cursor:pointer;font-size:clamp(16px,1.9vw,20px)}
+.chk input{width:20px;height:20px;vertical-align:middle;margin-right:10px}
+.pg{height:12px;background:var(--line);border-radius:9px;overflow:hidden;margin:14px 0 6px}.pg i{display:block;height:100%;width:0;background:var(--ok);transition:.3s}
+canvas{width:100%;height:46vh;min-height:230px;background:#fff;border:2px dashed var(--pri);border-radius:16px;touch-action:none;display:block;cursor:crosshair}
+.dot{display:inline-block;width:30px;height:30px;border-radius:50%;border:3px solid var(--line);cursor:pointer;vertical-align:middle;margin:0 2px}.dot.on{border-color:var(--ink)}
+.tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
+.big4{font-size:clamp(54px,12vw,120px);font-weight:900;color:var(--pri);line-height:1;margin:.1em 0}
+.pid{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:#0b1324;border:6px solid #2b3a5c;border-radius:14px;padding:6px;aspect-ratio:16/8;max-width:560px}
+.pid div{background:#16233f;border-radius:8px;display:grid;place-items:center;color:#6c7fa6;font-size:15px;text-align:center;padding:4px;transition:.3s}
+.pid div.on{background:var(--pri);color:#fff;font-weight:700}
+.pin{font-size:34px;font-weight:900;letter-spacing:.2em;color:var(--sky);background:#0b1324;border-radius:12px;padding:8px 18px;display:inline-block}
+input.t{font:inherit;font-size:22px;padding:10px 14px;border:2px solid var(--line);border-radius:12px;width:190px;letter-spacing:.2em;background:var(--card);color:var(--ink)}
+.row{display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start}.row>*{flex:1 1 280px}
+#tm{font-size:54px;font-weight:900;font-variant-numeric:tabular-nums;color:var(--pri)}
+.opt{font:inherit;font-weight:600;display:block;width:100%;text-align:left;margin:8px 0;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:11px 14px;cursor:pointer}
+.opt.ok{background:var(--ok);border-color:var(--ok);color:#fff}.opt.no{background:var(--bad);border-color:var(--bad);color:#fff}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:11px 5vw calc(11px + env(safe-area-inset-bottom,0px));background:var(--card);border-top:1px solid var(--line);z-index:9}
+nav button{font:inherit;font-weight:700;border:0;border-radius:12px;padding:10px 16px;background:var(--pri);color:#fff;cursor:pointer}
+nav button.g{background:var(--line);color:var(--ink)}
+#cnt{color:var(--mut);font-weight:600}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+
+<section class="slide on"><div class="dark"><div class="cover">
+<span class="tag">PANDUAN PENGOPERASIAN</span>
+<h1>Panduan Lengkap Papan Tulis Interaktif Digital (PID)</h1>
+<p class="mut">Langkah mudah mengoperasikan PID untuk ruang kelas dan rapat kolaboratif yang modern. Media ini bisa dicoba langsung!</p>
+<div class="line"></div>
+<p class="mut">Muh. Agustan, S.Pd · SD Negeri 2 Lasusua</p>
+</div></div></section>
+
+<section class="slide"><h2>Alur pembahasan: klik modul untuk melompat</h2>
+<div class="grid">
+<div class="card mod" onclick="go(2)"><small>MODUL 01</small><h3>Persiapan Awal</h3><p class="mut">Prosedur menghidupkan dan navigasi beranda dasar.</p></div>
+<div class="card mod" onclick="go(5)"><small>MODUL 02</small><h3>Fitur Papan Tulis</h3><p class="mut">Penggunaan stylus, gestur, dan media interaktif.</p></div>
+<div class="card mod" onclick="go(8)"><small>MODUL 03</small><h3>Konektivitas Layar</h3><p class="mut">Koneksi nirkabel dan kabel fisik HDMI/USB-C.</p></div>
+<div class="card mod" onclick="go(11)"><small>MODUL 04</small><h3>Simpan &amp; Berbagi</h3><p class="mut">Ekspor PDF, pindai QR Code, dan akses Cloud.</p></div>
+</div></section>
+
+<section class="slide chk"><h2>1. Langkah menyalakan &amp; persiapan awal</h2>
+<p class="mut">Centang setiap langkah yang sudah Anda lakukan.</p>
+<label><input type="checkbox"><b>Sambungan Listrik:</b> hubungkan kabel daya ke sakelar PLN yang stabil.</label>
+<label><input type="checkbox"><b>Tombol Power:</b> tekan tombol daya di panel depan atau remote control.</label>
+<label><input type="checkbox"><b>Koneksi Wi-Fi:</b> hubungkan PID ke jaringan internet lokal sekolah/kantor.</label>
+<label><input type="checkbox"><b>Cek Respons Sentuh:</b> uji sensitivitas stylus dan sentuhan jari pada layar.</label>
+<div class="pg"><i id="pgi"></i></div><b id="pgt" class="mut">0 dari 4 langkah</b></section>
+
+<section class="slide"><h2>Navigasi antarmuka utama (Home Screen)</h2><div id="m3"></div></section>
+<section class="slide"><h2>Rangkuman Modul 1</h2><div class="grid">
+<div class="card"><h3>🔌 Nyalakan</h3><p>Listrik stabil lalu tekan Power.</p></div>
+<div class="card"><h3>📶 Hubungkan</h3><p>Sambungkan Wi-Fi sekolah.</p></div>
+<div class="card"><h3>👆 Uji</h3><p>Cek respons stylus dan jari.</p></div>
+<div class="card"><h3>🏠 Jelajahi</h3><p>Kenali 4 menu di beranda.</p></div></div>
+<p><button class="btn on" onclick="go(5)">Lanjut ke Modul 2 →</button></p></section>
+
+<section class="slide"><h2>2. Cara menggunakan fitur utama papan tulis</h2><div id="m5"></div></section>
+
+<section class="slide"><h2>✏️ Coba sendiri: papan tulis mini</h2>
+<div class="tools"><span id="cols"></span>
+<button class="btn on" id="b1">Ujung tipis</button><button class="btn" id="b2">Ujung tebal</button><button class="btn" id="b3">Penghapus</button><button class="btn" id="b4">Hapus semua</button></div>
+<canvas id="cv"></canvas><p class="mut">Tulis dengan jari atau mouse. Ujung tipis untuk teks, ujung tebal untuk stabilo.</p></section>
+
+<section class="slide"><h2>Fitur penulisan, multi-touch &amp; gestur pintar</h2><div id="m7"></div></section>
+
+<section class="slide"><h2>3. Fitur berbagi layar (screen sharing)</h2>
+<div class="big4">4 Layar</div><h3>Tampilan mulus split-screen sekaligus</h3>
+<p class="mut">Menghubungkan laptop Windows, Mac, iPad, dan smartphone secara nirkabel tanpa ribet kabel.</p>
+<h3 style="margin-top:1em">Cara menghubungkan perangkat luar</h3><div id="m8"></div></section>
+
+<section class="slide"><h2>🔐 Simulasi screen share nirkabel</h2>
+<div class="row"><div>
+<p><b>1.</b> Buka aplikasi <b>ScreenShare</b> di PID. Kode PIN 6 digit tampil di layar:</p><div class="pin">482913</div>
+<p><b>2.</b> Di laptop/HP (Wi-Fi sama), masukkan PIN:</p>
+<input class="t" id="pn" inputmode="numeric" maxlength="6" placeholder="······"> <button class="btn on" id="pb">Hubungkan</button>
+<p id="pm" class="mut"></p>
+<p><b>3.</b> Pilih perangkat yang ingin ditampilkan:</p>
+<div class="tools" id="dv"></div></div>
+<div><div class="pid" id="pd"></div><p class="mut">Layar PID (maksimal 4 perangkat)</p></div></div></section>
+
+<section class="slide"><h2>4. Alat bantu &amp; utilitas produktivitas</h2>
+<div class="row"><div id="m10"></div><div class="card"><h3>⏱️ Coba timer kuis</h3><div id="tm">00:00</div>
+<div class="tools"><button class="btn" data-m="1">1 mnt</button><button class="btn" data-m="3">3 mnt</button><button class="btn" data-m="5">5 mnt</button><button class="btn on" id="ts">Mulai</button><button class="btn" id="tr">Reset</button></div><b id="tx"></b></div></div></section>
+
+<section class="slide"><h2>5. Distribusi materi tanpa kertas</h2><div id="m11"></div>
+<div class="card" style="margin-top:14px"><h3>Langkah ekspor &amp; bagikan QR</h3><ol><li>Selesai rapat, tekan tombol <b>Bagikan/Share</b>.</li><li>Pilih format file (PDF atau Gambar).</li><li>Pindai <b>QR Code</b> yang muncul di layar menggunakan kamera smartphone peserta.</li></ol></div></section>
+
+<section class="slide"><h2>Tips praktis &amp; perawatan perangkat</h2><div id="m12"></div></section>
+
+<section class="slide"><h2>🧠 Kuis: uji pemahaman</h2><div class="card"><p id="qq"></p><div id="qo"></div><p id="fb"><b></b></p><button class="btn on" id="qn" style="display:none"></button></div></section>
+
+<section class="slide"><div class="dark" style="text-align:center"><div class="cover" style="margin:auto"><div style="font-size:60px">🖥️</div><h1>Sesi Tanya Jawab &amp; Diskusi</h1><p class="mut">Terima kasih. Siap menciptakan pengalaman presentasi dan pembelajaran interaktif!</p><div class="line" style="margin:22px auto"></div></div></div></section>
+
+<nav><button class="g" id="pv">← Kembali</button><span id="cnt"></span><button class="g" id="fs">⛶</button><button id="nx">Lanjut →</button></nav>
+
+<script>
+var S=[].slice.call(document.querySelectorAll('.slide')),i=0,cvOn=false;
+function $(x){return document.getElementById(x)}
+function go(n){i=Math.max(0,Math.min(S.length-1,n));S.forEach(function(s,k){s.classList.toggle('on',k===i)});
+$('bar').style.width=((i+1)/S.length*100)+'%';$('cnt').textContent=(i+1)+' / '+S.length;
+$('pv').style.visibility=i?'visible':'hidden';$('nx').style.visibility=i<S.length-1?'visible':'hidden';
+if(i===6&&!cvOn)initCv()}
+$('pv').onclick=function(){go(i-1)};$('nx').onclick=function(){go(i+1)};
+$('fs').onclick=function(){try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(e){}};
+document.addEventListener('keydown',function(e){if(/INPUT|TEXTAREA/.test(e.target.tagName))return;if(e.key==='ArrowRight')go(i+1);if(e.key==='ArrowLeft')go(i-1)});
+function mk(id,d){var c=$(id),t=document.createElement('div'),p=document.createElement('div');t.className='tabs';p.className='panel';c.appendChild(t);c.appendChild(p);
+d.forEach(function(x,k){var b=document.createElement('button');b.innerHTML=x[0]+' '+x[1];b.onclick=function(){[].forEach.call(t.children,function(y,j){y.classList.toggle('on',j===k)});
+p.innerHTML='<div class="big">'+x[0]+'</div><h3>'+x[1]+'</h3><p>'+x[2]+'</p>'+(x[3]?'<div class="tip">💡 '+x[3]+'</div>':'');};t.appendChild(b)});t.children[0].click()}
+mk('m3',[['🖼️','Aplikasi Whiteboard','Kanvas digital utama untuk menulis, menggambar, dan anotasi.'],['📲','Screen Share','Akses cepat menghubungkan layar laptop atau HP secara nirkabel.'],['📁','File Manager','Membuka dokumen PDF, gambar, video, dan flashdisk USB.'],['🔌','Input Source','Memilih sumber kabel seperti HDMI 1, HDMI 2, atau Type-C.']]);
+mk('m5',[['🖊️','Menulis &amp; mengubah mode Pen','Pilih ikon Pen pada toolbar bawah, tentukan ketebalan garis serta warna.','Gunakan ujung tipis stylus untuk teks dan ujung tebal untuk stabilo.'],['🧽','Menghapus coretan (Eraser)','Gunakan telapak tangan langsung ke layar untuk menghapus cepat, atau pilih ikon Penghapus untuk menghapus per area/garis.'],['🔷','Menambah gambar &amp; bentuk (Shapes)','Tekan ikon Bentuk untuk menyisipkan lingkaran/persegi presisi, atau impor gambar melalui menu Sisipkan File.'],['🖍️','Anotasi di atas layar lain','Buka menu melayang (sidebar), ketuk ikon Anotasi untuk langsung mencoret-coret di atas presentasi PDF atau video.']]);
+mk('m7',[['🖊️','Dual stylus &amp; ujung ganda','Pena digital dengan dua pilihan ketebalan dan warna berbeda secara mendadak.'],['✋','Penghapus telapak tangan','Usap layar menggunakan telapak tangan untuk menghapus coretan secara alami.'],['✨','Pengenal bentuk otomatis','Mengubah garis kasar tangan menjadi bangun datar dan diagram rapi presisi.'],['👥','20 titik sentuhan','Kolaborasi multi-pengguna bersamaan di layar.'],['🔍','Pinch &amp; zoom','Cubit layar untuk memperbesar materi detail.'],['🖐️','Menu 5 jari','Ketuk lima jari untuk memanggil pintasan melayang.']]);
+mk('m8',[['📶','Koneksi nirkabel (wireless)','Pastikan PID dan HP/laptop terhubung ke Wi-Fi yang sama. Gunakan Miracast, AirPlay, atau aplikasi ScreenShare bawaan.'],['🔗','Koneksi kabel fisik','Gunakan kabel HDMI untuk audio/video + USB Touch untuk kontrol sentuh, atau kabel USB Type-C fleksibel tunggal.']]);
+mk('m10',[['✂️','Tangkapan layar','Gunting area layar dan berikan catatan instan.'],['💾','Perekam layar','Rekam seluruh jalannya materi presentasi.'],['⏱️','Timer &amp; stopwatch','Pengatur waktu tepat untuk kuis atau rapat.']]);
+mk('m11',[['🔳','Pindai QR Code','Peserta memindai kode QR lewat HP untuk mengunduh catatan PDF.'],['☁️','Google Drive / Cloud','Simpan hasil papan tulis langsung ke akun penyimpanan awan.'],['💽','Flashdisk USB','Ekspor file instan ke penyimpanan fisik eksternal.']]);
+mk('m12',[['🖊️','Stylus resmi','Gunakan pen stylus bawaan untuk mencegah goresan kaca layar.'],['🧼','Pembersihan layar','Bersihkan kaca dengan kain mikrofiber halus dan sedikit air.'],['⏻','Matikan sesuai prosedur','Pilih Shutdown pada sistem sebelum mencabut colokan listrik.'],['🔄','Pembaruan sistem','Lakukan pembaruan perangkat lunak berkala agar tetap responsif.']]);
+var cb=document.querySelectorAll('.chk input');
+[].forEach.call(cb,function(c){c.onchange=function(){var n=[].filter.call(cb,function(x){return x.checked}).length;$('pgi').style.width=n*25+'%';$('pgt').textContent=n===4?'✅ PID siap digunakan!':n+' dari 4 langkah'}});
+function initCv(){cvOn=true;var c=$('cv'),x=c.getContext('2d'),r=c.getBoundingClientRect();c.width=r.width;c.height=r.height;
+var col='#0284c7',w=3,er=false,dr=false,cs=['#0284c7','#e5484d','#12a36b','#f59e0b','#111111'];
+cs.forEach(function(k,j){var d=document.createElement('span');d.className='dot'+(j?'':' on');d.style.background=k;d.onclick=function(){col=k;er=false;sel(d)};$('cols').appendChild(d)});
+function sel(d){[].forEach.call($('cols').children,function(y){y.classList.remove('on')});if(d)d.classList.add('on')}
+function bt(a){['b1','b2','b3'].forEach(function(b){$(b).classList.toggle('on',b===a)})}
+$('b1').onclick=function(){w=3;er=false;bt('b1')};$('b2').onclick=function(){w=12;er=false;bt('b2')};$('b3').onclick=function(){er=true;bt('b3');sel(null)};
+$('b4').onclick=function(){x.clearRect(0,0,c.width,c.height)};
+function pt(e){var b=c.getBoundingClientRect();return[e.clientX-b.left,e.clientY-b.top]}
+c.onpointerdown=function(e){dr=true;c.setPointerCapture(e.pointerId);var p=pt(e);x.beginPath();x.moveTo(p[0],p[1])};
+c.onpointermove=function(e){if(!dr)return;var p=pt(e);x.lineCap='round';x.lineJoin='round';
+if(er){x.globalCompositeOperation='destination-out';x.lineWidth=34}else{x.globalCompositeOperation='source-over';x.strokeStyle=col;x.lineWidth=w;x.globalAlpha=w>8?.55:1}
+x.lineTo(p[0],p[1]);x.stroke();x.globalAlpha=1};
+c.onpointerup=c.onpointercancel=function(){dr=false}}
+var devs=['💻 Laptop Windows','🍎 Laptop Mac','📱 iPad','📞 Smartphone'],pd=$('pd'),ok=false,con=[];
+for(var k=0;k<4;k++){pd.appendChild(document.createElement('div')).textContent='Layar '+(k+1)+' kosong'}
+devs.forEach(function(d,k){var b=document.createElement('button');b.className='btn';b.textContent=d;b.onclick=function(){if(!ok){$('pm').textContent='Masukkan PIN dulu 🔒';return}
+if(con.indexOf(k)<0){con.push(k);var q=pd.children[con.length-1];q.className='on';q.textContent=d+' ✓'}};$('dv').appendChild(b)});
+$('pb').onclick=function(){var v=$('pn').value.trim();ok=v==='482913';$('pm').textContent=ok?'✅ Terhubung! Pilih perangkat di bawah.':'❌ PIN salah. Cek kode 6 digit di layar PID.'};
+var tt=0,tv=null,tl=$('tm');function fm(){var m=Math.floor(tt/60),s=tt%60;tl.textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s}
+[].forEach.call(document.querySelectorAll('[data-m]'),function(b){b.onclick=function(){clearInterval(tv);tv=null;tt=+b.dataset.m*60;fm();$('tx').textContent='';$('ts').textContent='Mulai'}});
+$('ts').onclick=function(){if(tv){clearInterval(tv);tv=null;$('ts').textContent='Lanjut';return}if(!tt)return;$('ts').textContent='Jeda';
+tv=setInterval(function(){tt--;fm();if(tt<=0){clearInterval(tv);tv=null;$('tx').textContent='⏰ Waktu habis!';$('ts').textContent='Mulai'}},1000)};
+$('tr').onclick=function(){clearInterval(tv);tv=null;tt=0;fm();$('tx').textContent='';$('ts').textContent='Mulai'};
+var Q=[['Sebelum mengajar, apa yang sebaiknya diuji pada PID?',['Respons sentuh stylus dan jari','Warna dinding kelas','Jumlah kursi'],0,'Cek respons sentuh adalah langkah persiapan awal.'],
+['Menu mana yang dipakai untuk memilih sumber HDMI 1, HDMI 2, atau Type-C?',['File Manager','Input Source','Screen Share'],1,'Input Source memilih sumber kabel.'],
+['Cara cepat menghapus coretan di PID adalah…',['Telapak tangan langsung ke layar','Mencabut listrik','Menekan tombol volume'],0,'Palm erase menghapus secara alami.'],
+['Untuk screen share nirkabel, apa yang dimasukkan ke aplikasi laptop?',['Kode PIN 6 digit','Nomor HP guru','Kata sandi email'],0,'PIN 6 digit tampil di layar PID.'],
+['Cara terbaik membersihkan layar PID adalah…',['Tisu kasar dan banyak air','Kain mikrofiber halus dan sedikit air','Sikat kawat'],1,'Mikrofiber halus mencegah goresan.']];
+var q=0,sc=0,dn=false;
+function ask(){var d=Q[q];dn=false;$('qq').innerHTML='<b>Soal '+(q+1)+'/'+Q.length+'.</b> '+d[0];$('qo').innerHTML='';$('fb').textContent='';$('qn').style.display='none';
+d[1].forEach(function(t,k){var b=document.createElement('button');b.className='opt';b.textContent=t;b.onclick=function(){if(dn)return;dn=true;var g=k===d[2];if(g)sc++;b.classList.add(g?'ok':'no');if(!g)$('qo').children[d[2]].classList.add('ok');
+$('fb').textContent=(g?'Benar! ':'Belum tepat. ')+d[3];$('qn').style.display='inline-block';$('qn').textContent=q<Q.length-1?'Soal berikutnya →':'Lihat skor'};$('qo').appendChild(b)})}
+$('qn').onclick=function(){if(q<Q.length-1){q++;ask()}else if($('qn').textContent==='Ulangi'){q=0;sc=0;ask()}else{$('qq').innerHTML='<b>Skor Anda: '+sc+' / '+Q.length+'</b> '+(sc===Q.length?'🎉 Luar biasa!':'👍 Terus berlatih!');$('qo').innerHTML='';$('fb').textContent='';$('qn').textContent='Ulangi'}};
+ask();go(0);
+</script>
+</body>
+</html>
